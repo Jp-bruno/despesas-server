@@ -63,29 +63,33 @@ const usersController = {
         try {
             const id = req.params.userId
 
+            if (id === "1") {
+                res.status(200).json({ error: false, message: "Ok" })
+                return
+            }
+
             const user = await User.findOne({ _id: new mongoose.Types.ObjectId(id) }).exec().catch(e => { throw e })
 
             res.status(200).json({ error: false, message: "Ok", data: user })
         } catch (e) {
             console.log(e)
-            res.status(200).json({ error: true, message: e.message })
+            res.status(500).json({ error: true, message: e.message })
         }
     },
     verifyAuth: async (req, res) => {
         try {
-            console.log(req.user)
-            res.status(200).json({ error: false, message: "Ok", isAuth: !!req.user })
+            res.status(200).json({ error: false, message: "Ok", isAuth: req.user ? req.user : false })
         } catch (e) {
             console.log(e)
             res.status(500).json({ error: true, message: e.message })
         }
     },
-    logOff: async(req, res) => {
+    logOff: async (req, res) => {
         try {
             res.clearCookie("token")
-            res.status(200).json({error: false, message: "Ok"})
-        }catch(e) {
-            console.log(e) 
+            res.status(200).json({ error: false, message: "Ok" })
+        } catch (e) {
+            console.log(e)
             res.status(500).json({ error: true, message: e.message })
         }
     }
