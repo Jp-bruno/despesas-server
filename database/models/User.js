@@ -32,6 +32,11 @@ export const UserSchema = new Schema({
         ref: "Despesas",
         default: []
     },
+    depositos: {
+        type: [Schema.Types.ObjectId],
+        ref: "Depositos",
+        default: []
+    },
     notificacoes: {
         type: [Schema.Types.ObjectId],
         ref: "Notificacoes",
